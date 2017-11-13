@@ -2,6 +2,7 @@
 % Portfolio Optimiser main script
 %--------------------------------------------------------------------------
 
+clear all
 %Reads data from database
 Market = readtable('DB/Market_Data.csv');
 Compound = readtable('DB/Market_Data_CR.csv');
@@ -22,5 +23,8 @@ Return(:,Dcolumns) = [];   % "                           "
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
 
+%Plots autocorrelation of compound returns and compound squared returns 
+%and computes the Ljung-Box Q-Test
+autocorrelation_ACF( Compound, size, Companies );
 
 
