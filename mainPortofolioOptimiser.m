@@ -2,7 +2,6 @@
 % Portfolio Optimiser main script
 %--------------------------------------------------------------------------
 
-clear all
 %Reads data from database
 Market = readtable('DB/Market_Data.csv');
 Compound = readtable('DB/Market_Data_CR.csv');
@@ -26,5 +25,9 @@ size = length(Companies); %counts the number of columns left
 %Plots autocorrelation of compound returns and compound squared returns 
 %and computes the Ljung-Box Q-Test
 autocorrelation_ACF( Compound, size, Companies );
+
+%Plots histograms of simple and compound returns fitted with Normal and 
+%tStudent distribution
+histogram_distribution_fit( Return, Compound, size, Companies );
 
 
