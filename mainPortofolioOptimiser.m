@@ -22,5 +22,9 @@ Return(:,Dcolumns) = [];   % "                           "
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
 
+% Identification of Fat tails
+
+Fat_Tails (Return,size,Companies)
+
 
 
