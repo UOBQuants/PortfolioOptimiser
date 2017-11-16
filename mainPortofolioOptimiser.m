@@ -26,7 +26,6 @@ Return(:,Dcolumns) = [];   % "                           "
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
 
-
 %% Autocorrelation
 %Plots autocorrelation of compound returns and compound squared returns 
 %and computes the Ljung-Box Q-Test
@@ -39,6 +38,8 @@ histogram_distribution_fit( Return, Compound, size, Companies );
 
 %% Identification of fat tails
 %Plots t distribution againts data for each company
-Fat_Tails (Return,size,Companies)
+Fat_Tails( Return, size, Companies );
+
+
 
 

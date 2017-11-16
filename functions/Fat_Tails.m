@@ -14,14 +14,15 @@ quantile_t_dist = tinv (prob_cdf, 3);
 %3 are the degree of freedom of the tStudent distribution considered
 %we choose 3 after having tried some, it can be changed.
 
+figure
 % Plot T distribution VS Outcome company 
 for i = 3:1:size
-    simplereturn = Return{ : , i:size};
+    simplereturn = Return{ : , i};
+    name = char(Companies(i));
     
-    subplot( 2, 2, i-2)
+    subplot( 2, 2, i-2 )
     qqplot( simplereturn, quantile_t_dist );
-    name = char(Companies(i);
-    title( strcat(name) , 'T Distribution Quantiles (df=3)') );
+    title( strcat(name, ' - T Distribution Quantiles (df=3)') );
 end
 
 end
