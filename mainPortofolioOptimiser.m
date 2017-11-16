@@ -26,20 +26,25 @@ Return(:,Dcolumns) = [];   % "                           "
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
 
-%% Autocorrelation
-%Plots autocorrelation of compound returns and compound squared returns 
-%and computes the Ljung-Box Q-Test
-autocorrelation_ACF( Compound, size, Companies );
+for i = 3:1:size
+    simple = Return{:,i};
+    compound = Compound{:,i};
+    name = char(Companies(i));
+    
+    %% Autocorrelation
+    %Plots autocorrelation of compound returns and compound squared returns 
+    %and computes the Ljung-Box Q-Test
+    autocorrelation_ACF( compound, name );
 
-%% Histogram fit
-%Plots histograms of simple and compound returns fitted with Normal and 
-%tStudent distribution
-histogram_distribution_fit( Return, Compound, size, Companies );
+    %% Histogram fit
+    %Plots histograms of simple and compound returns fitted with Normal and 
+    %tStudent distribution
+    histogram_distribution_fit( simple, compound, name );
 
-%% Identification of fat tails
-%Plots t distribution againts data for each company
-Fat_Tails( Return, size, Companies );
-
+    %% Identification of fat tails
+    %Plots t distribution againts data
+    Fat_Tails( simple, name );
+end
 
 
 
