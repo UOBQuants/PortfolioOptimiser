@@ -5,6 +5,6 @@ This repository contains:
 <ul>
   <li> <b><u> DB </b></u> : database (it mustn't be changed) </li>
   <li> <b><u> mainPortfolioOptimiser.m </b></u> : main script </li>
-  <li> <b><u> functions </b></u> : folder with all fanctions of the project </li> 
+  <li> <b><u> functions </b></u> : folder with all functions of the project </li> 
 
 </ul>
