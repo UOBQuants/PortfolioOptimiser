@@ -25,6 +25,8 @@ mean1 = pd1.mu; %mean of sample1
 sd1 = sqrt(pd1.sigma); %Standard deviation of sample2
 Sigma_mean1 = sd1/sqrt(sample_size); %Standard error of the mean
 
+Z_95 = tinv(1-0.05,sample_size);
+
 mean2 = pd2.mu; %mean of sample2
 
 Z_95 = 1.96; %Defining 95% confidence interval
@@ -99,7 +101,7 @@ if Visual == true
     % test "independently distributed hypothesis": scatter plot of observations at lagged times
     subplot('Position',[.28 .01 .43 .43])
     plot( D , L , '.' );
-    TwoDimEllipsoid(m,S,2,0,0);
+    %TwoDimEllipsoid(m,S,2,0,0);
     %plot the lags
     grid off
     axis equal
