@@ -1,7 +1,7 @@
 function [ DATA ] = volGarch(date, prices,returns )
 
-DATATABLE = prices;      %%Define Variable DATATABLE as price data
-x=returns;        %%Define variable x as returns data
+DATATABLE = prices(end:-1:1);      %%Define Variable DATATABLE as price data
+x=returns(end:-1:1);       %%Define variable x as returns data
 Obsv=length(x);   %%Number of observations in data
 
 
@@ -20,7 +20,7 @@ rng default; %for reproducibility
 EstMdl = estimate(Mdl,DATATABLE);
 
 %%Assign a variable to account for a table of dates for your sample
-DATES = date;
+DATES = date(end:-1:1);
 
 %%plot your returns against the dates in your data
 figure;
@@ -65,4 +65,3 @@ legend({'Estimation sample cond. var.','Forecasted cond. var.'},...
 
 
 end
-
