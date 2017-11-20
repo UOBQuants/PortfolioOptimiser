@@ -25,7 +25,7 @@ Return(:,Dcolumns) = [];   % "                           "
 
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
-date = Compound{:,1};
+date = Market{:,1};
 
 for i = 3:1:size
     price = Market{:,i};
@@ -51,6 +51,3 @@ for i = 3:1:size
     %%plots returns over time and conditional volatility
     volGarch(date, price, compound);
 end
-
-
-
