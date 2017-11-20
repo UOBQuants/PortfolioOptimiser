@@ -1,8 +1,7 @@
-function [ DATA ] = volGarch( pricedata )
+function [ DATA ] = volGarch(date, prices,returns )
 
-DATA = readtable(pricedata);   %%Extract data from excel file
-DATATABLE = DATA.PX_Last;      %%Define Variable DATATABLE as data from price column labeled PX_LAST
-x=price2ret(DATATABLE);        %%Convert prices to simple returns and label x  
+DATATABLE = prices;      %%Define Variable DATATABLE as price data
+x=returns;        %%Define variable x as returns data
 Obsv=length(x);   %%Number of observations in data
 
 
@@ -21,7 +20,7 @@ rng default; %for reproducibility
 EstMdl = estimate(Mdl,DATATABLE);
 
 %%Assign a variable to account for a table of dates for your sample
-DATES = DATA.Date;
+DATES = date;
 
 %%plot your returns against the dates in your data
 figure;
