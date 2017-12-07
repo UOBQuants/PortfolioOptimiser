@@ -1,25 +1,20 @@
-%This function takes as input simple and compound return, 
-%number of companies and their names. 
-%It plots the histograms with Normal and tStudent fit. 
-
-function histogram_distribution_fit(simpleR, compoundR, CompanyName)
+function histogram_distribution_fit(Returns, CompanyName)
+% Author : Giuseppe Mascolo
+% histogram_distribution_fit
+% Input: Returns: data
+%        CompanyName: name of the company
+% Output: 
+%        plot of the histogram of our data with inside a fitted t
+%        distribution
 
 %histfit plots the histograms with Normal and tStudent fit. 
 figure
-subplot(2,2,1)
-histfit(simpleR,100,'tlocationscale') %100 is the number of
-title( strcat( CompanyName , ' - simple - Student t') )
-   
-subplot(2,2,2)
-histfit(compoundR,100,'tlocationscale')
-title( strcat( CompanyName , ' - compound - Student t') )
-
-subplot(2,2,3)
-histfit(simpleR,100,'Normal')
-title( strcat( CompanyName , ' - simple - Normal') )
+subplot(2,1,1)
+histfit(Returns,100,'tlocationscale')
+title( strcat( CompanyName , ' - Student t') )
   
-subplot(2,2,4)
-histfit(compoundR,100,'Normal')
-title( strcat( CompanyName , ' - compound - Normal') )
+subplot(2,1,2)
+histfit(Returns,100,'Normal')
+title( strcat( CompanyName , ' - Normal') )
     
 end

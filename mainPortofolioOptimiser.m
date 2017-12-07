@@ -1,9 +1,10 @@
 %--------------------------------------------------------------------------
 % Portfolio Optimiser main script
 %--------------------------------------------------------------------------
-
+clear all, close all
 %% Libraries
 addpath('functions');
+addpath('functions/Heuristic_test_sub_functions')
 
 %% Data
 %Reads data from database
@@ -22,29 +23,14 @@ Return(:,Dcolumns) = [];   % "                           "
 
 %https://uk.mathworks.com/help/matlab/matlab_prog/access-data-in-a-table.html
 %to learn how to access data 
+Companies = Compound.Properties.VariableNames; %creates a vector of cells with companies tickers
+size = length(Companies); %counts the number of columns left (number of companies)
 
-Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
-size = length(Companies); %counts the number of columns left
+%we decide now what we want to plot
+plotAutocorr = false;
+doHystogramFit = false;
+plotFatTails = false;
+plotHeuristicTest = false;
 
-for i = 3:1:size
-    simple = Return{:,i};
-    compound = Compound{:,i};
-    name = char(Companies(i));
-    
-    %% Autocorrelation
-    %Plots autocorrelation of compound returns and compound squared returns 
-    %and computes the Ljung-Box Q-Test
-    autocorrelation_ACF( compound, name );
-
-    %% Histogram fit
-    %Plots histograms of simple and compound returns fitted with Normal and 
-    %tStudent distribution
-    histogram_distribution_fit( simple, compound, name );
-
-    %% Identification of fat tails
-    %Plots t distribution againts data
-    Fat_Tails( simple, name );
-end
-
-
-
+%% Market Analysis
+[iid, Rho, nu, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest);

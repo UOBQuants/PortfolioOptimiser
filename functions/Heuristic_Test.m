@@ -1,14 +1,19 @@
-function output = Heuristic_Test(Data, CompanyName, Visual)
+function [mean_result, sd_result, correlation_signal] = Heuristic_Test(Data, CompanyName, Visual)
 % Author : Ashley Robertson
+% Heuristic_Test
+% Input: Data: data
+%        CompanyName: name of the company
+%        Visual: bool = true if we want to plot the histograms and scatter plot
+% Output: 
+%        mean_result: true if the mean of sample 2 is within the interval of confidence
+%        sd_result: true if the standard deviation of sample 2 is within the interval of confidence
+%        correlation_signal: true if data present correlation with the 1-lag data
 % this function performs simple invariance (i.i.d.) tests on a time series
 % 1. it checks that the variables are identically distributed by looking at the 
 %    histogram of two subsamples
 % 2. it checks that the variables are independent by looking at the 1-lag scatter plot
 % under i.i.d. the location-dispersion ellipsoid should be a circle
 % see "Risk and Asset Allocation"-Springer (2005), by A. Meucci
-
-%% Adding sub-functions
-addpath('Heuristic_test_sub_functions')
 
 %% Setting final results to false. If output is true, the Data is IID
 mean_result = false;
@@ -26,10 +31,8 @@ pd1 = fitdist(Sample_1,'Normal');
 pd2 = fitdist(Sample_2,'Normal');
 % Fit samples to Normal dist for better comparison
 
-
 mean1 = pd1.mu; %mean of sample1
 sd1 = pd1.sigma; %Standard deviation of sample 1
-
 
 Sigma_mean1 = sd1/sqrt(sample_size); %Standard error of the mean
 Z_95 = tinv(1-0.025,sample_size); %t critical value
@@ -50,12 +53,12 @@ Sigma_Lower_limit = sqrt(((sample_size-1)*sd1^2)/Lower_Chi2_95);
 %Confidence interval calculation comes from http://www.milefoot.com/math/stat/ci-variances.htm
 
 if Mean_Lower_limit < mean2 && Mean_Upper_limit > mean2 %if the mean of sample 2 is 
-    %within the range of mean of sample1 +- sd1
+    %within the confidence interval
     mean_result = true;
 end
 
-if Sigma_Lower_limit < sd2 && Sigma_Upper_limit > sd2 %if the mean of sample 2 is 
-    %within the range of mean of sample1 +- sd1
+if Sigma_Lower_limit < sd2 && Sigma_Upper_limit > sd2 %if the standard deviation of sample 2 is 
+    %within the confidence interval
     sd_result = true;
 end
 
@@ -134,5 +137,4 @@ if Visual == true
     set(gca,'xlim',X_lim,'ylim',X_lim);
 end
 
-output = [mean_result, sd_result, correlation_signal];
 end
