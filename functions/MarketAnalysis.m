@@ -1,4 +1,4 @@
-function [iid, Rho, nu, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest)
+function [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest)
 % Author : Giuseppe Mascolo
 % MarketAnalysis
 % Input: comp: any kind of returns in a table format
@@ -9,7 +9,9 @@ function [iid, Rho, nu, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHystog
 % Output: 
 %        iid: number of IID marginals
 %        Rho: an estimate of the matrix of linear correlation parameters for a t copula
-%        nu: an estimate of the degrees of freedom 
+%        nu: an estimate of the degrees of freedom
+%        marginals: a vector of probability distribution object created
+%                   by fitting the distribution specified in our returns
 %        GARCHprop: number of marginals which present GARCH properties
 % this function performs:
 % 1. autocorrelation test
@@ -24,8 +26,11 @@ function [iid, Rho, nu, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHystog
 Companies = comp.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
 
-%V will contain the fitted distrigution of the companies
+%grades will contain the fitted distrigution of the companies
 grades = [];
+%marginals will contain a vector of probability distribution object created
+%by fitting the distribution specified in our returns
+marginals = [];
 %iid will count the number of IID marginals
 iid = 0;
 %GARCHprop will count the number of marginals which present GARCH properties
@@ -65,7 +70,10 @@ for i = 3:1:size
     %% Distribution Fit
     %performs tStudent fit or emirical fit and
     %the valuation of the cdf in our data points, obtaining the grades for the future copula fit.
-    grades = tStudentFitGrades(compound, grades);
+    [singleGrade, singleMarginal] = tStudentFitGrades(compound);
+    grades = [grades, singleGrade];
+    %remember that marginals will contain a vector of probability distribution object
+    marginals = [marginals, singleMarginal];
     
     %% Results analysis
     

@@ -33,4 +33,4 @@ plotFatTails = false;
 plotHeuristicTest = false;
 
 %% Market Analysis
-[iid, Rho, nu, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest);
+[iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest);

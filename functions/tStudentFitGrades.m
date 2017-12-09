@@ -1,12 +1,12 @@
-function V = tStudentFitGrades(Returns, V)
+function [v, pd] = tStudentFitGrades(Returns)
 % Author : Giuseppe Mascolo
 % tStudentFit
 % Input: Returns: data
-%        V: existing matrix containing the grades (F(X)) look "Meucci"
 % Output: 
-%        V: updated matrix containing the grades (F(X)) look "Meucci"
+%        v: vector containing the grade (F(X)) look "Meucci"
+%        pd: probability distribution object with the tStudent fit
 % this function performs the tStudent fit or empirical fit and the valuation of the cdf in
-% our data points, obtaining the grades for the future copula fit.
+% our data points, obtaining a singular grade for the future copula fit.
 
 % create a tStudent distribution from our data
 pd = fitdist(Returns,'tLocationScale');
@@ -25,8 +25,6 @@ else
     v = cdf(pd,Returns);
 end
 
-%we now append our result to the previous
-V = [V,v];
 
 end
 
