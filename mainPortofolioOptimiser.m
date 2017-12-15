@@ -28,9 +28,9 @@ size = length(Companies); %counts the number of columns left (number of companie
 
 %we decide now what we want to plot
 plotAutocorr = false;
-doHystogramFit = false;
+doHistogramFit = false;
 plotFatTails = false;
 plotHeuristicTest = false;
 
 %% Market Analysis
-[iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest);
+[iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest);

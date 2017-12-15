@@ -1,6 +1,6 @@
-function [v, pd] = tStudentFitGrades(Returns)
+function [v, pd] = fitGrades(Returns)
 % Author : Giuseppe Mascolo
-% tStudentFit
+% fitGrades
 % Input: Returns: data
 % Output: 
 %        v: vector containing the grade (F(X)) look "Meucci"
@@ -21,6 +21,7 @@ h = chi2gof(Returns,'CDF',pd);
 %of the tStudent distribution with the function cdf.
 if h == 1
     v = ksdensity(Returns,Returns,'function','cdf');
+    pd = fitdist(Returns,'Kernel');
 else
     v = cdf(pd,Returns);
 end

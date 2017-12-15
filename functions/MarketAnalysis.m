@@ -1,9 +1,9 @@
-function [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHystogramFit, plotFatTails, plotHeuristicTest)
+function [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest)
 % Author : Giuseppe Mascolo
 % MarketAnalysis
 % Input: comp: any kind of returns in a table format
 %        plotAutocorr: bool = true if we want to plot autocorrelation, false otherwise
-%        doHystogramFit: bool = true if we want to do hystogram fit, false otherwise
+%        doHistogramFit: bool = true if we want to do histogram fit, false otherwise
 %        plotFatTails: bool = true if we want to plot fat tails analysis, false otherwise
 %        plotHeuristicTest: bool = true if we want to plot the heuristic test, false otherwise
 % Output: 
@@ -15,7 +15,7 @@ function [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(comp, plotAutocor
 %        GARCHprop: number of marginals which present GARCH properties
 % this function performs:
 % 1. autocorrelation test
-% 2. hystogram distribution fit 
+% 2. histogram distribution fit 
 % 3. Identification of fat tails
 % 4. Heuristic Test
 % 5. Copula Fit
@@ -53,13 +53,13 @@ for i = 3:1:size
     %% Histogram fit
     %Plots histograms of simple and compound returns fitted with Normal and 
     %tStudent distribution
-    if (doHystogramFit == true) 
+    if (doHistogramFit == true) 
         histogram_distribution_fit( compound, name );
     end
 
     %% Identification of fat tails
     %Plots t distribution againts data
-    if (doHystogramFit == true) 
+    if (doHistogramFit == true) 
         Fat_Tails( compound, name );
     end
     
@@ -70,7 +70,7 @@ for i = 3:1:size
     %% Distribution Fit
     %performs tStudent fit or emirical fit and
     %the valuation of the cdf in our data points, obtaining the grades for the future copula fit.
-    [singleGrade, singleMarginal] = tStudentFitGrades(compound);
+    [singleGrade, singleMarginal] = fitGrades(compound);
     grades = [grades, singleGrade];
     %remember that marginals will contain a vector of probability distribution object
     marginals = [marginals, singleMarginal];
