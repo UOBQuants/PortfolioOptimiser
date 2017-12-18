@@ -24,7 +24,7 @@ Return(:,Dcolumns) = [];   % "                           "
 %https://uk.mathworks.com/help/matlab/matlab_prog/access-data-in-a-table.html
 %to learn how to access data 
 Companies = Compound.Properties.VariableNames; %creates a vector of cells with companies tickers
-size = length(Companies); %counts the number of columns left (number of companies)
+size = length(Companies); %counts the number of columns (it includes date and index columns)
 
 %we decide now what we want to plot
 plotAutocorr = false;
@@ -34,3 +34,9 @@ plotHeuristicTest = false;
 
 %% Market Analysis
 [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest);
+
+%% Marginal Projection
+NDaysProjection = 7;
+NCompanies = size - 2;
+lastPrices = Market{1,3:end};
+projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
