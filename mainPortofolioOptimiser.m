@@ -25,8 +25,10 @@ Return(:,Dcolumns) = [];   % "                           "
 
 Companies = Market.Properties.VariableNames; %creates a vector of cells with companies tickers
 size = length(Companies); %counts the number of columns left
+date = Market{:,1};
 
 for i = 3:1:size
+    price = Market{:,i};
     simple = Return{:,i};
     compound = Compound{:,i};
     name = char(Companies(i));
@@ -44,7 +46,8 @@ for i = 3:1:size
     %% Identification of fat tails
     %Plots t distribution againts data
     Fat_Tails( simple, name );
+    
+    %%GARCH Test
+    %%plots returns over time and conditional volatility
+    volGarch(date, price, compound);
 end
-
-
-
