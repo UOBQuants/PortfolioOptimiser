@@ -1,40 +1,31 @@
-%This function takes as input compound return, number of companies 
-%and their names. It plots the autocorrelation of compound returns, 
-%and compound squared returns and computes the Ljung-Box Q-Test 
-%for each of them.
+function h = autocorrelation_ACF(Returns, ReturnName, CompanyName, doPlot)
+% Author : Giuseppe Mascolo
+% autocorrelation_ACF
+% Input: Returns: data
+%        ReturnName: string with the name ot the returns (simple,compound,ext.)
+%        CompanyName: name of the company
+%        doPlot: bool = true if we want to plot autocorrelation
+% Output: 
+%        h: Ljung-Box Q-Test result (=0 no autocorrelation, =1 autocorrelation)
 
-function autocorrelation_ACF(Return, CompanyName)
-
-figure
 %plot autocorrelazion value with function autocorr
-subplot(2,1,1);
-autocorr( Return )
-title( strcat(CompanyName, ' compound returns') )
+if(doPlot == true)
+    figure
+    subplot(2,1,1)
+    plot(Returns);
+    hline = refline([0]);
+    hline.Color = 'r';
 
-subplot(2,1,2);
-autocorr( Return.^2 )
-title( strcat(CompanyName,' squared compound returns') )
+    subplot(2,1,2)
+    autocorr( Returns )
+    title( strcat(CompanyName, {', '}, ReturnName) )
+end
 
 % Now we are doing the Ljung-Box Q-Test for autocorrelation
 % (Null hypothesys H0 := no autocorrelation)
 % h is the rejection decision (=0 no enough evidence to reject H0)
 % pValue is the p-value for the hypothesis test 
-[h1,pValue1] = lbqtest( Return, 'lags', 21 );
-[h2,pValue2] = lbqtest( Return.^2, 'lags', 21 );
+[h,pValue] = lbqtest( Returns, 'lags', 21 );
 
-% print the risult of the test
-present = " returns present autocorrelation";
-not_present = " returns do not present enough evidence to reject NO autocorrelation";
-if h1==0
-    disp( strcat(CompanyName, not_present) );
-else
-    disp( strcat(CompanyName, present) );
-end
-
-if h2==0
-    disp( strcat(CompanyName, " squared", not_present) );
-else
-    disp( strcat(CompanyName, " squared", present) );
-end
 
 end
