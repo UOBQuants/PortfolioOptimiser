@@ -40,3 +40,44 @@ NDaysProjection = 7;
 NCompanies = size - 2;
 lastPrices = Market{1,3:end};
 projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
+
+%% Optimisation
+exp_prices = mean(projectedPrices);      %mean of all observations from Monte Carlo
+inv_diag_lastPrices = inv(diag(lastPrices));  %inverse diagonal matrix of last prices 
+                                        % to calculate the variance of linear returns
+                                        
+%expected value of linear returns from 6.89 Meucci
+exp_lin_return = exp_prices./lastPrices - 1;
+
+%variance-covariance matrix of linear returns from 6.90 Meucci 
+var_prices = cov(projectedPrices);
+var_lin_return = inv_diag_lastPrices * var_prices * inv_diag_lastPrices;
+std_devs = sqrt(diag(var_lin_return));
+
+%selecting N short and N long
+Nshort = 2;
+[B,I] = sort(exp_lin_return);
+%exp_lin_return(I(1:Nshort)) = -1*exp_lin_return(I(1:Nshort))
+A=ones(1,NCompanies);
+A(I(1:Nshort)) = -1*A(I(1:Nshort));
+%A(2,:) = -A(1,:)
+b=1;
+
+lb = -(A < 0);
+ub = +(A > 0);
+%lb = -(A(1,:) < 0)
+%ub = +(A(2,:) < 0)
+
+
+%efficient frontier
+p = Portfolio('assetmean', exp_lin_return, 'assetcovar', var_lin_return);
+p = Portfolio(p, 'lowerbound', lb, 'upperbound', ub);
+if exist('currentPortfolio.mat') ~= 0
+    load('currentPortfolio.mat');
+    p = setInitPort(p, maxSharpRatio_portfolio);
+end
+%load('current_portfolio', old_portfolio)
+p = setEquality(p, A, b);
+%p = setInequality(p, A, b)
+maxSharpRatio_portfolio = estimateMaxSharpeRatio(p)
+%save currentPortfolio.mat maxSharpRatio_portfolio
