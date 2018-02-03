@@ -11,6 +11,7 @@ addpath('functions/Heuristic_test_sub_functions')
 Market = readtable('DB/Market_Data.csv');
 Compound = readtable('DB/Market_Data_CR.csv');
 Return = readtable('DB/Market_Data_NR.csv');
+%shortlongcomb = readtable('DB/ShortLong4c.csv');
 
 %cleans data from NaN values
 R = height(Market); %gives the number of rows
@@ -31,6 +32,14 @@ plotAutocorr = false;
 doHistogramFit = false;
 plotFatTails = false;
 plotHeuristicTest = false;
+plotFront = true;
+
+%% ************************   SAVE PORTFOLIO   **************************** 
+savePortfolio = true;
+% savePortfolio should be true only when we run the program to definitely 
+% update our portfolio, so just at the beginning/end of the week in order
+% to update for the next week.
+% ******** savePortfolio is FALSE during the week *********
 
 %% Market Analysis
 [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest);
@@ -42,42 +51,34 @@ lastPrices = Market{1,3:end};
 projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
 
 %% Optimisation
-exp_prices = mean(projectedPrices);      %mean of all observations from Monte Carlo
-inv_diag_lastPrices = inv(diag(lastPrices));  %inverse diagonal matrix of last prices 
-                                        % to calculate the variance of linear returns
-                                        
-%expected value of linear returns from 6.89 Meucci
-exp_lin_return = exp_prices./lastPrices - 1;
+%first calculates expected vector and covariance matrix for total returns
+[exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
-%variance-covariance matrix of linear returns from 6.90 Meucci 
-var_prices = cov(projectedPrices);
-var_lin_return = inv_diag_lastPrices * var_prices * inv_diag_lastPrices;
-std_devs = sqrt(diag(var_lin_return));
+[InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
 
-%selecting N short and N long
-Nshort = 2;
-[B,I] = sort(exp_lin_return);
-%exp_lin_return(I(1:Nshort)) = -1*exp_lin_return(I(1:Nshort))
-A=ones(1,NCompanies);
-A(I(1:Nshort)) = -1*A(I(1:Nshort));
-%A(2,:) = -A(1,:)
-b=1;
+%matlab Portfolio object uses Markowitz model for portfolio optimisation
+%computations
+[p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
 
-lb = -(A < 0);
-ub = +(A > 0);
-%lb = -(A(1,:) < 0)
-%ub = +(A(2,:) < 0)
+%% Display
 
+Blotter = dataset({lastPrices','Prices'}, {InitHold,'InitHolding'}, {InitP,'InitPort'}, 'obsnames', p.AssetList);
 
-%efficient frontier
-p = Portfolio('assetmean', exp_lin_return, 'assetcovar', var_lin_return);
-p = Portfolio(p, 'lowerbound', lb, 'upperbound', ub);
-if exist('currentPortfolio.mat') ~= 0
-    load('currentPortfolio.mat');
-    p = setInitPort(p, maxSharpRatio_portfolio);
+SR_pwgt(abs(SR_pwgt) < 1.0e-5) = 0;% zero out near 0 trade weights
+Blotter.Portfolio = SR_pwgt;
+Hold = Wealth * (SR_pwgt ./ lastPrices');% zero out near 0 trade weights
+Hold(abs(Hold) < 1.0e-5) = 0;
+Blotter.Holding = Hold;
+Blotter.BuyShare = Wealth * (pbuy ./ lastPrices');
+Blotter.SellShare = Wealth * (psell ./ lastPrices');
+display(Blotter);
+
+export(Blotter)
+
+if (savePortfolio == true) 
+    save currentPortfolio.mat Hold
 end
-%load('current_portfolio', old_portfolio)
-p = setEquality(p, A, b);
-%p = setInequality(p, A, b)
-maxSharpRatio_portfolio = estimateMaxSharpeRatio(p)
-%save currentPortfolio.mat maxSharpRatio_portfolio
+
+% when we create another portfolio we can check if it is feasible in the 
+% the other using the function "checkFeasibility"
+% checkFeasibility(p, maxSharpRatio_portfolio)
