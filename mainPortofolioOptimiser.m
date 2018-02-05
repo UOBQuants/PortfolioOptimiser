@@ -60,17 +60,7 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 %computations
 [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
 
-%% Display
-
-Blotter = dataset({lastPrices','Prices'}, {InitHold,'InitHolding'}, {InitP,'InitPort'}, 'obsnames', p.AssetList);
-
-SR_pwgt(abs(SR_pwgt) < 1.0e-3) = 0;% zero out near 0 trade weights
-Blotter.Portfolio = SR_pwgt;
-Hold = Wealth * (SR_pwgt ./ lastPrices');% zero out near 0 trade weights
-Hold(abs(Hold) < 1.0e-5) = 0;
-Blotter.Holding = Hold;
-Blotter.BuyShare = Wealth * (pbuy ./ lastPrices');
-Blotter.SellShare = Wealth * (psell ./ lastPrices');
+[Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
 display(Blotter);
 
 export(Blotter)
