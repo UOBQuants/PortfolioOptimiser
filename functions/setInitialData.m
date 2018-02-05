@@ -18,7 +18,7 @@ function [InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies)
         InitP= (1/Wealth)*(lastPrices' .* InitHold);
     else
         InitHold = zeros(NCompanies, 1);
-        Wealth = 1000;
+        Wealth = 1000000;
         InitP = InitHold;
     end
     

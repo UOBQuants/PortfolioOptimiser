@@ -45,7 +45,7 @@ savePortfolio = true;
 [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest);
 
 %% Marginal Projection
-NDaysProjection = 7;
+NDaysProjection = 5;
 NCompanies = size - 2;
 lastPrices = Market{1,3:end};
 projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
@@ -64,7 +64,7 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 
 Blotter = dataset({lastPrices','Prices'}, {InitHold,'InitHolding'}, {InitP,'InitPort'}, 'obsnames', p.AssetList);
 
-SR_pwgt(abs(SR_pwgt) < 1.0e-5) = 0;% zero out near 0 trade weights
+SR_pwgt(abs(SR_pwgt) < 1.0e-3) = 0;% zero out near 0 trade weights
 Blotter.Portfolio = SR_pwgt;
 Hold = Wealth * (SR_pwgt ./ lastPrices');% zero out near 0 trade weights
 Hold(abs(Hold) < 1.0e-5) = 0;
