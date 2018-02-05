@@ -12,8 +12,8 @@ function [InitHold,Wealth,InitP] = setInitialDataKNN(lastPrices,NCompanies)
 % set Wealth and initial portfolio
 
     if exist('currentPortfolioKNN.mat', 'file') ~= 0
-        load currentPortfolioKNN.mat Hold
-        InitHold = Hold;
+        load currentPortfolioKNN.mat HoldKNN
+        InitHold = HoldKNN;
         Wealth = sum(lastPrices' .* abs(InitHold));
         InitP= (1/Wealth)*(lastPrices' .* InitHold);
     else

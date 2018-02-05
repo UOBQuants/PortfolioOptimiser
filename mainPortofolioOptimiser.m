@@ -55,18 +55,25 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
 [InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
+[InitHoldBL,WealthBL,InitPBL] = setInitialDataBL(lastPrices,NCompanies);
 
 %matlab Portfolio object uses Markowitz model for portfolio optimisation
 %computations
 [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
+[pBL, sharp_ratioBL, SR_pwgtBL, pbuyBL, psellBL] = Optimisation(InitPBL, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
 
 [Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
+[BlotterBL, HoldBL] = createBlotter(pBL.AssetList, lastPrices, InitHoldBL, InitPBL, SR_pwgtBL, WealthBL, pbuyBL, psellBL);
+
 display(Blotter);
+display(BlotterBL);
 
 export(Blotter)
+export(BlotterBL)
 
 if (savePortfolio == true) 
     save currentPortfolio.mat Hold
+    save currentPortfolioBL.mat HoldBL
 end
 
 % when we create another portfolio we can check if it is feasible in the 
