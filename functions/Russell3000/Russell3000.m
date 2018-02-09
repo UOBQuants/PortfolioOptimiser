@@ -16,6 +16,7 @@ fprintf(fid, '%d,%d,%d\n', StartDate) ;
 fprintf(fid, '%d,%d,%d\n', FinishDate) ;
 fclose(fid) ;
 
+system('python Russell_Data_Gatherer.py')
 %% Russell3000 correlation comparison
 
 WealthRussell3000 = initial_wealth ;
