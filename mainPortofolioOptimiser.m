@@ -46,14 +46,12 @@ savePortfolio = true;
 %% Market Analysis
 [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(Compound, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest);
 
-%% Marginal Projection
+%% Projection
 NDaysProjection = 5;
 NCompanies = size - 2;
 lastPrices = Market{1,3:end};
 projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
 
-%% Optimisation
-%first calculates expected vector and covariance matrix for total returns
 [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
 [exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, size);
@@ -61,6 +59,8 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 [InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
 [InitHoldBL,WealthBL,InitPBL] = setInitialDataBL(lastPrices,NCompanies);
 
+%% Optimisation
+%first calculates expected vector and covariance matrix for total returns
 %matlab Portfolio object uses Markowitz model for portfolio optimisation
 %computations
 [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
