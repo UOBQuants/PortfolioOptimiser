@@ -1,8 +1,9 @@
+PortfolioWealth = readtable('portfolioWealth.csv');
 
 %% Seeting dates for the crawler
 
-Start = '1/1/2018';
-Finish = '6/2/2018';
+Start = datestr(table2array(PortfolioWealth(1,1)), 'dd/mm/yyyy');
+Finish = datestr(table2array(PortfolioWealth(end,1)), 'dd/mm/yyyy');
 initial_wealth = 100;
 SDashes = strfind(Start,'/');
 FDashesh = strfind(Finish,'/');
@@ -28,5 +29,10 @@ for i = Rows:-1:1
     WealthRussell3000 = WealthRussell3000*(Returns(i)+1);
     WealthRussell3000_History = [WealthRussell3000_History , WealthRussell3000];
 end
+
 figure
 plot(WealthRussell3000_History)
+hold on
+plot(table2array(PortfolioWealth(:,2)))
+
+%% Portfolio Analysis 
