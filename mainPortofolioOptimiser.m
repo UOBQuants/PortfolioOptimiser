@@ -6,6 +6,21 @@ clear all, close all
 addpath('functions');
 addpath('functions/Heuristic_test_sub_functions')
 
+%% Your Q matrix is your own view of the market, I use an estimate of 
+% compound returns for each security, I found the 12 month estimated price 
+% on Bloomberg (I couldn't find anything shrter than this) then each week 
+% I used the last price and this estimated price to calculate compound
+% return --> log(estimatedprice/recentprice) * 100
+
+Q = [2.3 10.8 9.4 6.3 5.8 1.1]' ;
+
+%% P and views matrix, 
+% your P matrix will be an identity matrix of 1's or -1's,
+% depending on whether you expect your returns to increase or
+%%decrease, P's are in order or the security no. 
+
+P = [ 1, 1, 1, 1, 1, 1];
+
 %% Data
 %Reads data from database
 Market = readtable('DB/Market_Data.csv');
@@ -54,7 +69,7 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 
 [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
-[exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, size);
+[exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, NCompanies, Q, P);
 
 [InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
 [InitHoldBL,WealthBL,InitPBL] = setInitialDataBL(lastPrices,NCompanies);
