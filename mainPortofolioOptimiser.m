@@ -11,6 +11,8 @@ addpath('functions/Heuristic_test_sub_functions')
 Market = readtable('DB/Market_Data.csv');
 Compound = readtable('DB/Market_Data_CR.csv');
 Return = readtable('DB/Market_Data_NR.csv');
+WeeklyCompound = readtable('functions/weeklycompound.csv');
+OutstandingShares = readtable('DB/OutstandingShares.csv');
 %shortlongcomb = readtable('DB/ShortLong4c.csv');
 
 %cleans data from NaN values
@@ -54,13 +56,15 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 %first calculates expected vector and covariance matrix for total returns
 [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
+[exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, size);
+
 [InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
 [InitHoldBL,WealthBL,InitPBL] = setInitialDataBL(lastPrices,NCompanies);
 
 %matlab Portfolio object uses Markowitz model for portfolio optimisation
 %computations
-[p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
-[pBL, sharp_ratioBL, SR_pwgtBL, pbuyBL, psellBL] = Optimisation(InitPBL, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront);
+[p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
+[pBL, sharp_ratioBL, SR_pwgtBL, pbuyBL, psellBL] = Optimisation(InitPBL, exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
 
 [Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
 [BlotterBL, HoldBL] = createBlotter(pBL.AssetList, lastPrices, InitHoldBL, InitPBL, SR_pwgtBL, WealthBL, pbuyBL, psellBL);

@@ -11,6 +11,8 @@ function port = addConstraints(port, A)
     b=1;    %RHS of the equalities
     lb = -(A < 0);
     ub = +(A > 0);
+    lb(lb == 0) = 0.01;
+    ub(ub == 0) = -0.01;
     port = Portfolio(port, 'lowerbound', lb, 'upperbound', ub);
     port = setEquality(port, A, b);
 

@@ -1,4 +1,4 @@
-function [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, companyNames, NCompanies, plotFront)
+function [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, companyNames, NCompanies, plotFront, title)
 % Author : Giuseppe Mascolo
 % Optimisation
 % Input: InitP: vector with initial portfolio weights
@@ -23,14 +23,14 @@ function [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_re
     %% set short-long constraints
         
     %selecting Nshort securities to short (NCompany-Nshort will be "longed")
-    Nshort = 2;
+    Nshort = 3;
     [~,I] = sort(exp_lin_return);
     A=ones(1,NCompanies);
     A(I(1:Nshort)) = -1*A(I(1:Nshort));
     
     %% Create a Portfolio
     
-    p = Portfolio('name', 'Max Sharp Ratio Portfolio');
+    p = Portfolio('name', title);
     p = setAssetMoments(p, exp_lin_return, var_lin_return);
     p = setAssetList (p, companyNames);
     p = addConstraints(p, A);
