@@ -23,7 +23,7 @@ function [p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_re
     %% set short-long constraints
         
     %selecting Nshort securities to short (NCompany-Nshort will be "longed")
-    Nshort = 2;
+    Nshort = 3;
     [~,I] = sort(exp_lin_return);
     A=ones(1,NCompanies);
     A(I(1:Nshort)) = -1*A(I(1:Nshort));

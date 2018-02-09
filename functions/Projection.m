@@ -21,6 +21,7 @@ for i = 1 : NDaysProjection
     dayProj = marginal_projection(NCompanies, NObservations, Rho, nu, marginals);
     %we now sum our daily independent daily projection
     horizonProj = horizonProj + dayProj;
+    %Each day's compound return is additive
 end 
 
 %from invariants to market prices
