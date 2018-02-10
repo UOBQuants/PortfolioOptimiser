@@ -109,5 +109,37 @@ for i in Securities:
     Compund_Return = pd.concat([Compund_Return, C_return], axis = 1, join_axes=[Compund_Return.index])
    
 Compund_Return.to_csv(path + 'Market_Data_CR.csv')
-
 f.close()
+
+Weakly_CReturn = pd.DataFrame( columns =  Compund_Return.columns.values)
+
+j=1;
+for i in Compund_Return.index:
+    if j==1: 
+        Date = i
+        temp = Compund_Return.loc[i]
+    else: temp = temp + Compund_Return.loc[i]
+    j = j+1
+    if j == 6: 
+        j=1
+        Weakly_CReturn.loc[Date] = temp
+        
+Weakly_CReturn.to_csv(path + 'weeklycompound.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
