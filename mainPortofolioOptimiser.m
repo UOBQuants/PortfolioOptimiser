@@ -27,7 +27,6 @@ Q = [2.3 10.8 9.4 6.3 5.8 1.1]' ;
 P = [ 1, 1, 1, 1, 1, 1];
 
 %% Data
-
 [Market, Compound, WeeklyCompound, OutstandingShares] = DB_Loader();
 
 %https://uk.mathworks.com/help/matlab/matlab_prog/access-data-in-a-table.html
@@ -40,7 +39,7 @@ plotAutocorr = false;
 doHistogramFit = false;
 plotFatTails = false;
 plotHeuristicTest = false;
-plotFront = true;
+plotFront = false;
 
 %% ************************   SAVE PORTFOLIO   **************************** 
 savePortfolio = true;
@@ -66,24 +65,13 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 %first calculates expected vector and covariance matrix for total returns
 %matlab Portfolio object uses Markowitz model for portfolio optimisation
 %computations
-[p, sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
-[pBL, sharp_ratioBL, SR_pwgtBL] = Optimisation(exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
-
-% [Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
-% [BlotterBL, HoldBL] = createBlotter(pBL.AssetList, lastPrices, InitHoldBL, InitPBL, SR_pwgtBL, WealthBL, pbuyBL, psellBL);
-% 
-% display(Blotter);
-% display(BlotterBL);
-% 
-% export(Blotter)
-% export(BlotterBL)
+[sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
+[sharp_ratioBL, SR_pwgtBL] = Optimisation(exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
 
 if (savePortfolio == true) 
     date = {datestr(table2array(Market(1,1)), 'dd/mm/yyyy')};
-    SavePortfolio(Companies(3:end),num2cell(SR_pwgt), date, 'NP');
-    SavePortfolio(Companies(3:end),num2cell(SR_pwgtBL'), date, 'BL');
+    SavePortfolio(Companies(3:end),num2cell(SR_pwgt), date, 'NP', sharp_ratio);
+    SavePortfolio(Companies(3:end),num2cell(SR_pwgtBL'), date, 'BL', sharp_ratioBL);
 end
 
-% when we create another portfolio we can check if it is feasible in the 
-% the other using the function "checkFeasibility"
-% checkFeasibility(p, maxSharpRatio_portfolio)
+%Once you run "PerformanceAnalysis" should be run

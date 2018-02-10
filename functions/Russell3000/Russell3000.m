@@ -1,25 +1,24 @@
-
 function Russell3000(Wealth, Start , Finish)
-%% Seeting dates for the crawler
+%% Russell3000 Crawler
 
 Russeelldates2csv(Start, Finish)
-initial_wealth = Wealth(1);
-
 system('python functions/Russell3000/Russell_Data_Gatherer.py')
+
 %% Russell3000 correlation comparison
 
+initial_wealth = Wealth(1);
 WealthRussell3000 = initial_wealth ;
 Market = readtable('Russell3000R.csv');
 Returns = table2array(Market(:,3));
-[Rows , C] = size(Returns);
+[Rows , ~] = size(Returns);
 WealthRussell3000_History = [];
 for i = Rows:-1:1 
     WealthRussell3000 = WealthRussell3000*(Returns(i)+1);
     WealthRussell3000_History = [WealthRussell3000_History , WealthRussell3000];
 end
 
-datetoPlot = table2array(Market(:,2))
-RusWealthCorrelation = corr(WealthRussell3000_History',Wealth')
+datetoPlot = table2array(Market(:,2));
+RusWealthCorrelation = corr(WealthRussell3000_History',Wealth');
 figure
 plot(flip(datetoPlot), WealthRussell3000_History, 'DatetimeTickFormat', 'dd/MM/yy')
 hold on

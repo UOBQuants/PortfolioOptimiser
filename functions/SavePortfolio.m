@@ -1,5 +1,6 @@
-function Saveposition(companies, Weights, Date, Method)
-
+function SavePortfolio(companies, Weights, Date, Method, sharp_ratio)
+%this function takes the optimise portfolio (weights and sharpe ration) 
+%from the optimiser and saves it in local drive for the performance analysis
 
 size = length(companies);
 position(1) = Date;
@@ -13,12 +14,14 @@ if Method == 'NP'
 
         positionDB = position;
         positionDB.Properties.VariableNames = Vars;
-        save positionDB positionDB
+        sharp_ratioDB = sharp_ratio;
+        save positionDB positionDB sharp_ratioDB
     else
-        load positionDB positionDB
+        load positionDB positionDB sharp_ratioDB
         R = height(positionDB);
         positionDB(R+1,:) = position;
-        save positionDB positionDB
+        sharp_ratioDB = [sharp_ratioDB; sharp_ratio];
+        save positionDB positionDB sharp_ratioDB
     end
 elseif Method == 'BL'
     if exist('positionDB_BL.mat', 'file') == 0 
@@ -27,11 +30,13 @@ elseif Method == 'BL'
         
         positionDB_BL = position;
         positionDB_BL.Properties.VariableNames = Vars;
-        save positionDB_BL positionDB_BL
+        sharp_ratioDB_BL = sharp_ratio;
+        save positionDB_BL positionDB_BL sharp_ratioDB_BL
     else
-        load positionDB_BL positionDB_BL
+        load positionDB_BL positionDB_BL sharp_ratioDB_BL
         R = height(positionDB_BL);
         positionDB_BL(R+1,:) = position;
-        save positionDB_BL positionDB_BL
+        sharp_ratioDB_BL = [sharp_ratioDB_BL; sharp_ratio];
+        save positionDB_BL positionDB_BL sharp_ratioDB_BL
     end
 end

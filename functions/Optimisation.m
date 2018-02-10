@@ -1,4 +1,4 @@
-function [p, sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, companyNames, NCompanies, plotFront, title)
+function [sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, companyNames, NCompanies, plotFront, title)
 % Author : Giuseppe Mascolo
 % Optimisation
 % Input: exp_lin_return: vector of expected linear returns
@@ -7,9 +7,7 @@ function [p, sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return
 %        NCompanies: number of companies
 %        plotFront: bool = true if we want to plot the efficient frontier, false otherwise
 %        savePortfolio: bool = true if we want to save our optimal portfolio
-% Output: 
-%        p: Portfolio object with our constraints
-%        sharp_ratio: maximum sharp ratio
+% Output:sharp_ratio: maximum sharp ratio
 %        SR_pwgt: optimal portfolio weights
 % this function performs:
 % 1. set short-long constraints
