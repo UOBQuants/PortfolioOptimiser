@@ -2,10 +2,14 @@
 % Portfolio Optimiser main script
 %--------------------------------------------------------------------------
 clear all, close all
-
+system('ls')
 %% Libraries
 addpath('functions');
 addpath('functions/Heuristic_test_sub_functions')
+
+%% Crawler
+dates2csv('1/1/2015', '1/1/2017') %Sending the start and finish dates to the crawler for data aquisition
+system('python Crawler/Data_Gatherer.py')
 
 %% Your Q matrix is your own view of the market, I use an estimate of 
 % compound returns for each security, I found the 12 month estimated price 

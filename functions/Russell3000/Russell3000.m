@@ -1,21 +1,10 @@
 PortfolioWealth = readtable('portfolioWealth.csv');
-
 %% Seeting dates for the crawler
 
 Start = datestr(table2array(PortfolioWealth(1,1)), 'dd/mm/yyyy');
 Finish = datestr(table2array(PortfolioWealth(end,1)), 'dd/mm/yyyy');
+dates2csv(Start, Finish)
 initial_wealth = 100;
-SDashes = strfind(Start,'/');
-FDashesh = strfind(Finish,'/');
-Title = 'Day,Month,Year\n';
-StartDate = [str2num(Start(1:SDashes(1)-1)),str2num(Start(SDashes(1)+1:SDashes(2)-1)),str2num(Start(SDashes(2)+1:end))];
-FinishDate = [str2num(Finish(1:FDashesh(1)-1)), str2num(Finish(FDashesh(1)+1:FDashesh(2)-1)), str2num(Finish(FDashesh(2)+1:end))];
-
-fid = fopen('dates.csv', 'w') ;
-fprintf(fid, Title) ;
-fprintf(fid, '%d,%d,%d\n', StartDate) ;
-fprintf(fid, '%d,%d,%d\n', FinishDate) ;
-fclose(fid) ;
 
 system('python Russell_Data_Gatherer.py')
 %% Russell3000 correlation comparison
