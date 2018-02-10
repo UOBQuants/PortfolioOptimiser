@@ -62,43 +62,25 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 
 [exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, NCompanies, Q, P);
 
-[InitHold,Wealth,InitP] = setInitialData(lastPrices,NCompanies);
-[InitHoldBL,WealthBL,InitPBL] = setInitialDataBL(lastPrices,NCompanies);
-
 %% Optimisation
 %first calculates expected vector and covariance matrix for total returns
 %matlab Portfolio object uses Markowitz model for portfolio optimisation
 %computations
-[p, sharp_ratio, SR_pwgt, pbuy, psell] = Optimisation(InitP, exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
-[pBL, sharp_ratioBL, SR_pwgtBL, pbuyBL, psellBL] = Optimisation(InitPBL, exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
+[p, sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
+[pBL, sharp_ratioBL, SR_pwgtBL] = Optimisation(exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
 
-[Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
-[BlotterBL, HoldBL] = createBlotter(pBL.AssetList, lastPrices, InitHoldBL, InitPBL, SR_pwgtBL, WealthBL, pbuyBL, psellBL);
-
-display(Blotter);
-display(BlotterBL);
-
-export(Blotter)
-export(BlotterBL)
+% [Blotter, Hold] = createBlotter(p.AssetList, lastPrices, InitHold, InitP, SR_pwgt, Wealth, pbuy, psell);
+% [BlotterBL, HoldBL] = createBlotter(pBL.AssetList, lastPrices, InitHoldBL, InitPBL, SR_pwgtBL, WealthBL, pbuyBL, psellBL);
+% 
+% display(Blotter);
+% display(BlotterBL);
+% 
+% export(Blotter)
+% export(BlotterBL)
 
 if (savePortfolio == true) 
     save currentPortfolio.mat Hold
-    save currentPortfolioBL.mat HoldBL
-    
-    
-    if InitP == 0
-        Title = 'date'
-        for i = 3:NCompanies
-            Title = strcat(Title, ',', Companies{i});
-        end
-        fileID = fopen('holding_history.csv', 'w');
-        fprintf(fileID, Title) ;
-        fprintf(fileID, '%d,%d,%d\n', StartDate) ;
-        fprintf(fileID, '%d,%d,%d\n', FinishDate) ;
-        fclose(fileID) ;
-        
-    end
-    
+    save currentPortfolioBL.mat HoldBL    
 end
 
 % when we create another portfolio we can check if it is feasible in the 
