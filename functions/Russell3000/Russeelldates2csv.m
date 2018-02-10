@@ -1,4 +1,4 @@
-function dates2csv(Start, Finish)
+function Russeelldates2csv(Start, Finish)
 SDashes = strfind(Start,'/');
 FDashesh = strfind(Finish,'/');
 Title = 'Month,Day,Year\n';

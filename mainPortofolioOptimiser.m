@@ -8,7 +8,7 @@ addpath('functions');
 addpath('functions/Heuristic_test_sub_functions')
 
 %% Crawler
-dates2csv('10/01/2016', '10/01/2018') %Sending the start and finish dates to the crawler for data aquisition
+dates2csv('05/02/2016', '05/02/2018') %Sending the start and finish dates to the crawler for data aquisition
 system('python functions/Crawler/Data_Gatherer.py')
 
 %% Your Q matrix is your own view of the market, I use an estimate of 
