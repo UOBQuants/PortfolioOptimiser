@@ -19,23 +19,23 @@ import numpy as np
 
 
 cwd = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))) 
-Dates = pd.read_csv(cwd + '/dates.csv')
+Dates = pd.read_csv(cwd + '\dates.csv')
  #get the current directory address
-cwd_end = cwd.rfind('/') #gets the last / in the string
+cwd_end = cwd.rfind('\\') #gets the last / in the string
 cwd_back = cwd[:cwd_end] #gets last directory's address
 
-cwd_end = cwd_back.rfind('/') #gets the last / in the string
+cwd_end = cwd_back.rfind('\\') #gets the last / in the string
 cwd_back = cwd_back[:cwd_end] #gets last directory's address
 
 ############## INSERT INPUT VARIABLES ####################
-companies = pd.read_csv(cwd_back + '/companylist.csv', index_col = 0)
+companies = pd.read_csv(cwd_back + '\companylist.csv', index_col = 0)
 Directory = 'DB' #WARNING: THE FILES IN THAT DIRECTORY WILL BE DELETED AND REPLACED
 file = 'Market_Data.csv'
 start_date = (Dates.iloc[0][0],Dates.iloc[0][1],Dates.iloc[0][2])
 end_date = (Dates.iloc[1][0],Dates.iloc[1][1],Dates.iloc[1][2])
 #########################################################
 
-path = cwd_back + Directory +'/'  #gets destination directory
+path = cwd_back + '\\' + Directory + '\\'  #gets destination directory
 Dates = google_stocks('USD', start_date, end_date).Date #gets all dates between start and end
                                                         #USD gives USD/GBP which has a price for every day 
                                                         #Except Weekends
