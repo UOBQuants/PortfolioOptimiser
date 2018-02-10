@@ -27,13 +27,17 @@ for i = 1:H-1
     %% Loading Market Prices
     [Market, ~, ~, ~] = DB_Loader();
     Purchasing_price = table2array(Market(end,3:end));
-    Future = table2array(Market(:,3:end));
+    Future = table2array(Market(1:end-1,3:end));
     DeltaP = Future - Purchasing_price;
     
     Weights = table2array(Positions(i,2:end));
     Holding = (Wealth(end)*Weights)./Purchasing_price;
     
-    P_L = DeltaP*Holdings';
+    P_L = DeltaP*Holding';
+    
+    temp_Wealth = flip(P_L' + Wealth(end));
+    
+    Wealth = [Wealth , temp_Wealth];
     
     
 end
