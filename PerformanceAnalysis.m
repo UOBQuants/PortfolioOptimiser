@@ -6,14 +6,15 @@
 
 Method = 'NP'
 
-if Method = 'NP'
+if Method == 'NP'
     load positionDB positionDB
     Positions = positionDB;
-elseif Method = 'BL'
+elseif Method == 'BL'
     load positionDB_BL positionDB_BL
     Positions = positionDB_BL;
 end
 
+addpath('functions');
 addpath('functions/Russell3000')
 
 End_Date = '05/02/2018';
@@ -33,11 +34,14 @@ for i = 1:H-1
     start_date = table2array(Positions(i,1));
     start_date = start_date{1,1};
     start_date(7) = '2';
-
+    
     Finish_date = table2array(Positions(i+1,1));
     Finish_date = Finish_date{1,1};
     Finish_date(7)= '2';
-
+    
+    if start_date == Finish_date
+        continue;
+    end
     %% Crawler
     dates2csv(start_date, Finish_date) %Sending the start and finish dates to the crawler for data aquisition
     system('python functions/Crawler/Data_Gatherer.py')
@@ -57,7 +61,6 @@ for i = 1:H-1
     temp_Wealth = flip(P_L' + Wealth(end));
     
     Wealth = [Wealth , temp_Wealth];
-    
     
 end
 
