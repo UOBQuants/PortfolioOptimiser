@@ -4,6 +4,9 @@ Positions = {'01/01/0017', 0.1,0.3,0.2,0.1,0.1,0.2;
          
 Positions = cell2table(Positions);
 
+LastPosition = {'05/02/2018', 0,0,0,0,0,0};
+Positions = [Positions ; LastPosition];
+
 Positions.Properties.VariableNames = {'Date', 'NI', 'ANF', 'ABBV', 'AHC', 'KMI', 'BCO'};
 
 H = height(Positions);
@@ -38,6 +41,7 @@ for i = 1:H-1
     temp_Wealth = flip(P_L' + Wealth(end));
     
     Wealth = [Wealth , temp_Wealth];
+    
     
     
 end
