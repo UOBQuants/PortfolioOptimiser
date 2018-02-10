@@ -61,6 +61,7 @@ export(BlotterBL)
 if (savePortfolio == true) 
     save currentPortfolio.mat Hold
     save currentPortfolioBL.mat HoldBL
+    
 end
 
 % when we create another portfolio we can check if it is feasible in the 
