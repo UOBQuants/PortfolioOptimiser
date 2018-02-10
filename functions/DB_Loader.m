@@ -3,8 +3,8 @@ function [Market, Compound, WeeklyCompound, OutstandingShares] = DB_Loader()
 %Reads data from database
 Market = readtable('DB/Market_Data.csv');
 Compound = readtable('DB/Market_Data_CR.csv');
-WeeklyCompound = readtable('functions/weeklycompound.csv');
-%OutstandingShares = readtable('DB/OutstandingShares.csv');
+WeeklyCompound = readtable('BL_DB/weeklycompound.csv');
+OutstandingShares = readtable('BL_DB/OutstandingShares.csv');
 %shortlongcomb = readtable('DB/ShortLong4c.csv');
 
 %cleans data from NaN values
