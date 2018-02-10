@@ -11,7 +11,7 @@ Initial_Wealth = 1000000;
 Wealth = [Initial_Wealth];
 
 for i = 1:H-1
-    %% Holdings
+    %% Setting Start & Finish Dates
     start_date = table2array(Positions(i,1));
     start_date = start_date{1,1};
     start_date(7) = '2';
@@ -32,6 +32,8 @@ for i = 1:H-1
     
     Weights = table2array(Positions(i,2:end));
     Holding = (Wealth(end)*Weights)./Purchasing_price;
+    
+    P_L = DeltaP*Holdings';
     
     
 end
