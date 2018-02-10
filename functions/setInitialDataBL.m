@@ -14,12 +14,10 @@ function [InitHold,Wealth,InitP] = setInitialDataBL(lastPrices,NCompanies)
     if exist('currentPortfolioBL.mat', 'file') ~= 0
         load currentPortfolioBL.mat HoldBL
         InitHold = HoldBL;
-        Wealth = sum(lastPrices' .* abs(InitHold));
-        InitP= (1/Wealth)*(lastPrices' .* InitHold);
+        %Wealth = sum(lastPrices' .* abs(InitHold));
     else
         InitHold = zeros(NCompanies, 1);
         Wealth = 1000000;
-        InitP = InitHold;
     end
     
 end
