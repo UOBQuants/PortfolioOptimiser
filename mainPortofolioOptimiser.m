@@ -8,7 +8,7 @@ addpath('functions');
 addpath('functions/Heuristic_test_sub_functions')
 
 %% Crawler
-dates2csv('1/1/2015', '1/1/2018') %Sending the start and finish dates to the crawler for data aquisition
+dates2csv('10/01/2016', '10/01/2018') %Sending the start and finish dates to the crawler for data aquisition
 system('python functions/Crawler/Data_Gatherer.py')
 
 %% Your Q matrix is your own view of the market, I use an estimate of 
@@ -79,8 +79,9 @@ projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, la
 % export(BlotterBL)
 
 if (savePortfolio == true) 
-    save currentPortfolio.mat Hold
-    save currentPortfolioBL.mat HoldBL    
+    date = {datestr(table2array(Market(1,1)), 'dd/mm/yyyy')};
+    SavePortfolio(Companies(3:end),num2cell(SR_pwgt), date, 'NP');
+    SavePortfolio(Companies(3:end),num2cell(SR_pwgtBL'), date, 'BL');
 end
 
 % when we create another portfolio we can check if it is feasible in the 

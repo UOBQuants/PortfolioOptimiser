@@ -1,36 +1,37 @@
-function SavePortfolio(companies, Weights, Date, Method)
+function Saveposition(companies, Weights, Date, Method)
 
 
 size = length(companies);
-Portfolio(1) = Date;
-Portfolio(2:size+1) = Weights;
+position(1) = Date;
+position(2:size+1) = Weights;
+position = cell2table(position);
 
 if Method == 'NP'
-    if exist('PortfolioDB.mat', 'file') == 0 
+    if exist('positionDB.mat', 'file') == 0 
         Vars(2:size+1) = companies;
         Vars(1) = {'Date'};
 
-        PortfolioDB = table;
-        PortfolioDB = [PortfolioDB, Portfolio];
-        PortfolioDB.Properties.VariableNames = Vars;
-        save PortfolioDB
+        positionDB = position;
+        positionDB.Properties.VariableNames = Vars;
+        save positionDB positionDB
     else
-        load PortfolioDB
-        PortfolioDB = [PortfolioDB; Portfolio];
-        save PortfolioDB
+        load positionDB positionDB
+        R = height(positionDB);
+        positionDB(R+1,:) = position;
+        save positionDB positionDB
     end
 elseif Method == 'BL'
-    if exist('PortfolioDB_BL.mat', 'file') == 0 
+    if exist('positionDB_BL.mat', 'file') == 0 
         Vars(2:size+1) = companies;
         Vars(1) = {'Date'};
-
-        PortfolioDB_BL = table;
-        PortfolioDB_BL = [PortfolioDB_BL, Portfolio];
-        PortfolioDB_BL.Properties.VariableNames = Vars;
-        save PortfolioDB_BL
+        
+        positionDB_BL = position;
+        positionDB_BL.Properties.VariableNames = Vars;
+        save positionDB_BL positionDB_BL
     else
-        load PortfolioDB_BL
-        PortfolioDB_BL = [PortfolioDB_BL; Portfolio];
-        save PortfolioDB_BL
+        load positionDB_BL positionDB_BL
+        R = height(positionDB_BL);
+        positionDB_BL(R+1,:) = position;
+        save positionDB_BL positionDB_BL
     end
 end

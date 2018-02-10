@@ -59,7 +59,7 @@ for i = 3:1:size
 
     %% Identification of fat tails
     %Plots t distribution againts data
-    if (doHistogramFit == true) 
+    if (plotFatTails == true) 
         Fat_Tails( compound, name );
     end
     
