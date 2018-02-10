@@ -1,10 +1,24 @@
 
-Positions = {'01/01/0017', 0.1,0.3,0.2,0.1,0.1,0.2;
-             '08/01/0017', 0.1,0.2,0.2,0.1,0.2,0.2;};
+%Positions = {'01/01/0017', 0.1,0.3,0.2,0.1,0.1,0.2;
+             %'08/01/0017', 0.1,0.2,0.2,0.1,0.2,0.2;};
          
-Positions = cell2table(Positions);
+%Positions = cell2table(Positions);
 
-LastPosition = {'05/02/2018', 0,0,0,0,0,0};
+Method = 'NP'
+
+if Method = 'NP'
+    load positionDB positionDB
+    Positions = positionDB;
+elseif Method = 'BL'
+    load positionDB_BL positionDB_BL
+    Positions = positionDB_BL;
+end
+
+addpath('functions/Russell3000')
+
+End_Date = '05/02/2018';
+
+LastPosition = {End_Date, 0,0,0,0,0,0};
 Positions = [Positions ; LastPosition];
 
 Positions.Properties.VariableNames = {'Date', 'NI', 'ANF', 'ABBV', 'AHC', 'KMI', 'BCO'};
@@ -12,6 +26,7 @@ Positions.Properties.VariableNames = {'Date', 'NI', 'ANF', 'ABBV', 'AHC', 'KMI',
 H = height(Positions);
 Initial_Wealth = 1000000;
 Wealth = [Initial_Wealth];
+Holdings =[];
 
 for i = 1:H-1
     %% Setting Start & Finish Dates
@@ -35,6 +50,7 @@ for i = 1:H-1
     
     Weights = table2array(Positions(i,2:end));
     Holding = (Wealth(end)*Weights)./Purchasing_price;
+    Holdings = [Holdings, Holding];
     
     P_L = DeltaP*Holding';
     
@@ -43,8 +59,12 @@ for i = 1:H-1
     Wealth = [Wealth , temp_Wealth];
     
     
-    
 end
 
+start_date = table2array(Positions(1,1));
+start_date = start_date{1,1};
+start_date(7) = '2';
 
+
+Russell3000(Wealth,start_date , End_Date) 
 

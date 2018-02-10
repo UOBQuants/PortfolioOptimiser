@@ -1,10 +1,8 @@
-PortfolioWealth = readtable('portfolioWealth.csv');
+function Russell3000(Wealth, Start , Finish)
 %% Seeting dates for the crawler
 
-Start = datestr(table2array(PortfolioWealth(1,1)), 'dd/mm/yyyy');
-Finish = datestr(table2array(PortfolioWealth(end,1)), 'dd/mm/yyyy');
 dates2csv(Start, Finish)
-initial_wealth = 100;
+initial_wealth = Wealth(1);
 
 system('python Russell_Data_Gatherer.py')
 %% Russell3000 correlation comparison
@@ -22,6 +20,6 @@ end
 figure
 plot(WealthRussell3000_History)
 hold on
-plot(table2array(PortfolioWealth(:,2)))
+plot(Wealth)
 
 %% Portfolio Analysis 
