@@ -84,6 +84,21 @@ export(BlotterBL)
 if (savePortfolio == true) 
     save currentPortfolio.mat Hold
     save currentPortfolioBL.mat HoldBL
+    
+    
+    if InitP == 0
+        Title = 'date'
+        for i = 3:NCompanies
+            Title = strcat(Title, ',', Companies{i});
+        end
+        fileID = fopen('holding_history.csv', 'w');
+        fprintf(fileID, Title) ;
+        fprintf(fileID, '%d,%d,%d\n', StartDate) ;
+        fprintf(fileID, '%d,%d,%d\n', FinishDate) ;
+        fclose(fileID) ;
+        
+    end
+    
 end
 
 % when we create another portfolio we can check if it is feasible in the 
