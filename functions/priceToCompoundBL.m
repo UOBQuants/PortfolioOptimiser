@@ -31,13 +31,13 @@ Omega = (P*(tau*Var_histReturn)*P');
 
 %% Calculate Expected Returns
 
-exp_com_returnBL = equil_returns + tau*Var_histReturn*P'*inv(P*tau*Var_histReturn*P' + Omega)*(Q - P*equil_returns) ;
+exp_com_returnBL = (equil_returns + tau*Var_histReturn*P'*inv(P*tau*Var_histReturn*P' + Omega)*(Q - P*equil_returns))/100 ;
 
 
 %% Calculate Expected Variance
 
-var_com_returnBL = tau*Var_histReturn - tau*Var_histReturn*P'*inv(P*tau*Var_histReturn*P' + Omega)*P*tau*Var_histReturn ;
+var_com_return = tau*Var_histReturn - tau*Var_histReturn*P'*inv(P*tau*Var_histReturn*P' + Omega)*P*tau*Var_histReturn ;
 
-
+var_com_returnBL = var_com_return + Var_histReturn ;
 
 end
