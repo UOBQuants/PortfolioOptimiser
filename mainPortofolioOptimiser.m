@@ -8,7 +8,7 @@ addpath('functions');
 addpath('functions/Heuristic_test_sub_functions')
 
 %% Crawler
-dates2csv('05/02/2016', '05/02/2018') %Sending the start and finish dates to the crawler for data aquisition
+dates2csv('29/01/2016', '29/01/2018') %Sending the start and finish dates to the crawler for data aquisition
 system('python functions/Crawler/Data_Gatherer.py')
 
 %% Your Q matrix is your own view of the market, I use an estimate of 
@@ -17,7 +17,7 @@ system('python functions/Crawler/Data_Gatherer.py')
 % I used the last price and this estimated price to calculate compound
 % return --> log(estimatedprice/recentprice) * 100
 
-Q = [2.3 10.8 9.4 6.3 5.8 1.1]' ;
+Q = [6.4 4.26 3.12 3.88 1.93 0.8]' ;
 
 %% P and views matrix, 
 % your P matrix will be an identity matrix of 1's or -1's,

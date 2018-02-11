@@ -22,7 +22,6 @@ Positions = [Positions ; LastPosition];
 Initial_Wealth = 1000000;
 Wealth = [Initial_Wealth];
 Holdings =[];
-P_Ls = [];
 
 H = height(Positions);  %number of taken portfolios
 for i = 1:H-1 %loop for each portfolio
@@ -54,7 +53,6 @@ for i = 1:H-1 %loop for each portfolio
     Holdings = [Holdings; Holding];
     
     P_L = DeltaP*Holding';
-    P_Ls = [P_Ls, flip(P_L')];
     
     temp_Wealth = flip(P_L' + Wealth(end));
     
@@ -62,12 +60,13 @@ for i = 1:H-1 %loop for each portfolio
     
 end
 
+newPL = Wealth - Initial_Wealth;
 start_date = table2array(Positions(1,1));
 start_date = start_date{1,1};
 start_date(7) = '2';
 
-Russell3000(Wealth,start_date , End_Date) 
+Russell3000(Wealth,start_date , End_Date, Method) 
 display(Holdings);
-display(P_Ls);
+display(newPL);
 display(Wealth);
 
