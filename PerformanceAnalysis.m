@@ -1,5 +1,5 @@
 %we here se the which portfolio we are analysing
-Method = 'BL';  % NP for copula projection
+Method = 'NP';  % NP for copula projection
                % BL for Black Litterman
 
 if Method == 'NP'
