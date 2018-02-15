@@ -1,5 +1,9 @@
 %we here se the which portfolio we are analysing
+<<<<<<< HEAD
 Method = 'BL';  % NP for copula projection
+=======
+Method = 'NP';  % NP for copula projection
+>>>>>>> master
                % BL for Black Litterman
 
 if Method == 'NP'
@@ -22,7 +26,11 @@ Positions = [Positions ; LastPosition];
 Initial_Wealth = 1000000;
 Wealth = [Initial_Wealth];
 Holdings =[];
+<<<<<<< HEAD
 CompanyPL =[];
+=======
+P_Ls = [];
+>>>>>>> master
 
 H = height(Positions);  %number of taken portfolios
 for i = 1:H-1 %loop for each portfolio
@@ -52,9 +60,15 @@ for i = 1:H-1 %loop for each portfolio
     Weights = table2array(Positions(i,2:end));
     Holding = (Wealth(end)*Weights)./Purchasing_price;
     Holdings = [Holdings; Holding];
+<<<<<<< HEAD
     CompanyPL = [CompanyPL; DeltaP(1,:).*Holding];
     
     P_L = DeltaP*Holding';
+=======
+    
+    P_L = DeltaP*Holding';
+    P_Ls = [P_Ls, flip(P_L')];
+>>>>>>> master
     
     temp_Wealth = flip(P_L' + Wealth(end));
     
@@ -62,13 +76,22 @@ for i = 1:H-1 %loop for each portfolio
     
 end
 
+<<<<<<< HEAD
 newPL = Wealth - Initial_Wealth;
+=======
+>>>>>>> master
 start_date = table2array(Positions(1,1));
 start_date = start_date{1,1};
 start_date(7) = '2';
 
+<<<<<<< HEAD
 Russell3000(Wealth,start_date , End_Date, Method) 
 display(Holdings);
 display(newPL);
+=======
+Russell3000(Wealth,start_date , End_Date) 
+display(Holdings);
+display(P_Ls);
+>>>>>>> master
 display(Wealth);
 

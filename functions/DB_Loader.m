@@ -13,4 +13,7 @@ Compound(R,:) = []; %Last day does not have any return value
 Dcolumns = find( sum(ismissing(Compound)) > 0 ); %Find columns that have NaN values
 Compound(:,Dcolumns) = []; %deletes columns with NaN values
 Market(:,Dcolumns) = [];   % "                           "
+<<<<<<< HEAD
 WeeklyCompound(end,:) = [];
+=======
+>>>>>>> master

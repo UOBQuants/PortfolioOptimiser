@@ -1,11 +1,19 @@
 function [sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, companyNames, NCompanies, plotFront, title)
+<<<<<<< HEAD
+=======
+% Author : Giuseppe Mascolo
+>>>>>>> master
 % Optimisation
 % Input: exp_lin_return: vector of expected linear returns
 %        var_lin_return: covariance matrix of linear returns
 %        companyNames: vector of cells with ticker of the companies
 %        NCompanies: number of companies
 %        plotFront: bool = true if we want to plot the efficient frontier, false otherwise
+<<<<<<< HEAD
 %        title: plot title for the frontier
+=======
+%        savePortfolio: bool = true if we want to save our optimal portfolio
+>>>>>>> master
 % Output:sharp_ratio: maximum sharp ratio
 %        SR_pwgt: optimal portfolio weights
 % this function performs:
@@ -33,8 +41,11 @@ function [sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, c
     %[lowb, upb, isbounded] = estimateBounds(p);
 
     %% Optimise
+<<<<<<< HEAD
     %matlab Portfolio object uses Markowitz model for portfolio optimisation computations
     
+=======
+>>>>>>> master
     % "estimateMaxSharpeRatio" maximizes the Sharpe ratio among portfolios on
     % the efficient frontier, it uses the "fminbnd" function and all
     % information in the object
