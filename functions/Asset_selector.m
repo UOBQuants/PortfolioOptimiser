@@ -1,5 +1,8 @@
 function Companies = Asset_selector()
+<<<<<<< HEAD
+=======
 %Author: Ashley Robertson
+>>>>>>> master
 %This function selects 6 assets from the sectorial data. It takes the mean
 %compound return of each asset and select the best three and the worst
 %three. 

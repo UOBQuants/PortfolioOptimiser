@@ -1,5 +1,4 @@
 function [mean_result, sd_result, correlation_signal] = Heuristic_Test(Data, CompanyName, Visual)
-% Author : Ashley Robertson
 % Heuristic_Test
 % Input: Data: data
 %        CompanyName: name of the company

@@ -1,5 +1,4 @@
 function dayProj = marginal_projection(NCompanies, NObservations, Rho, nu, marginals)
-%Author : Georgie
 %marginal_projection
 % Input: NCompanies: number of companies
 %        NObservations: number of random vector to throw for Monte Carlo

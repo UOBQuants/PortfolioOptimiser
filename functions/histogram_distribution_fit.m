@@ -1,5 +1,4 @@
 function histogram_distribution_fit(Returns, CompanyName)
-% Author : Giuseppe Mascolo
 % histogram_distribution_fit
 % Input: Returns: data
 %        CompanyName: name of the company

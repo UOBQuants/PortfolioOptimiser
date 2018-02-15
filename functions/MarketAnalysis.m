@@ -1,5 +1,4 @@
 function [iid, Rho, nu, marginals, GARCHprop] = MarketAnalysis(comp, plotAutocorr, doHistogramFit, plotFatTails, plotHeuristicTest)
-% Author : Giuseppe Mascolo
 % MarketAnalysis
 % Input: comp: any kind of returns in a table format
 %        plotAutocorr: bool = true if we want to plot autocorrelation, false otherwise

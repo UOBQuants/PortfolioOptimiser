@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+function Russell3000(Wealth, Start , Finish, Method)
+=======
 function Russell3000(Wealth, Start , Finish)
+>>>>>>> master
 %% Russell3000 Crawler
 
 Russeelldates2csv(Start, Finish)
@@ -20,6 +24,23 @@ end
 datetoPlot = table2array(Market(:,2));
 RusWealthCorrelation = corr(WealthRussell3000_History',Wealth');
 figure
+<<<<<<< HEAD
+plot(flip(datetoPlot), WealthRussell3000_History/1000000, 'DatetimeTickFormat', 'dd/MM/yy')
+hold on
+plot(flip(datetoPlot), Wealth/1000000)
+ylabel('Wealth, $ (m)')
+%datetick('x',1, 'keeplimits')
+
+if Method == 'NP'
+    title('NP Portfolio - Russell 300 Benchmark Analysis')
+elseif Method == 'BL'
+    title('BL Portfolio - Russell 300 Benchmark Analysis')
+end
+h = legend('Russel 3000','Portfolio', 'location', 'best');
+set(h, 'Fontsize', 8);
+txt1 = ['Correlation = ', num2str(RusWealthCorrelation)];
+text(datetoPlot(end-1),max(Wealth)/1000000,txt1)
+=======
 plot(flip(datetoPlot), WealthRussell3000_History, 'DatetimeTickFormat', 'dd/MM/yy')
 hold on
 plot(flip(datetoPlot), Wealth)
@@ -29,6 +50,7 @@ h = legend('Russel 3000','Portfolio', 'location', 'best');
 set(h, 'Fontsize', 8);
 txt1 = ['Correlation = ', num2str(RusWealthCorrelation)];
 text(datetoPlot(end-1),max(Wealth),txt1)
+>>>>>>> master
 hold off
 
 end

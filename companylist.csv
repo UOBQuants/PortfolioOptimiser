@@ -1,7 +1,16 @@
 Index,Symbol
+<<<<<<< HEAD
+0,NYSE:WPX
+1,NYSE:RRC
+2,NYSE:SWN
+3,NYSE:NFX
+4,NYSE:KMI
+5,NYSE:PXD
+=======
 0,NI
 1,ANF
 2,ABBV
 3,AHC
 4,KMI
 5,BCO
+>>>>>>> master
