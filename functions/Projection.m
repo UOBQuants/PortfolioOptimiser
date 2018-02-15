@@ -1,5 +1,4 @@
 function projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices)
-%Author : Giuseppe Mascolo
 %Projection
 % Input: NDaysProjection: number of days we want to use
 %        NCompanies: number of companies

@@ -1,5 +1,4 @@
 function P = Price_Project(lastPrices, horizonProj, NCompanies)
-% Author: Georgina Evans
 % Input: lastPrices: the last prices we have (today's prices)
 %        horizonProj: invariants projected to the horizon
 %        NCompanies: number of companies

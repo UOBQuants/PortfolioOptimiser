@@ -1,5 +1,5 @@
 %we here se the which portfolio we are analysing
-Method = 'NP';  % NP for copula projection
+Method = 'BL';  % NP for copula projection
                % BL for Black Litterman
 
 if Method == 'NP'
@@ -22,6 +22,7 @@ Positions = [Positions ; LastPosition];
 Initial_Wealth = 1000000;
 Wealth = [Initial_Wealth];
 Holdings =[];
+CompanyPL =[];
 
 H = height(Positions);  %number of taken portfolios
 for i = 1:H-1 %loop for each portfolio
@@ -51,6 +52,7 @@ for i = 1:H-1 %loop for each portfolio
     Weights = table2array(Positions(i,2:end));
     Holding = (Wealth(end)*Weights)./Purchasing_price;
     Holdings = [Holdings; Holding];
+    CompanyPL = [CompanyPL; DeltaP(1,:).*Holding];
     
     P_L = DeltaP*Holding';
     

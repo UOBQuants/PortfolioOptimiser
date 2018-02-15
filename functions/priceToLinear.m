@@ -1,5 +1,4 @@
 function [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices)
-% Author : Giuseppe Mascolo
 % priceToLinear
 % Input: projectedPrices: projected prices at the horizon
 %        lastPrices: vector of last available data (today's prices)

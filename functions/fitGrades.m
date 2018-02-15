@@ -1,5 +1,4 @@
 function [v, pd] = fitGrades(Returns)
-% Author : Giuseppe Mascolo
 % fitGrades
 % Input: Returns: data
 % Output: 

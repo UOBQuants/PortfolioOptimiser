@@ -1,5 +1,5 @@
 function [exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, NCompanies, Q, P)
-%%Author: Georgie - Black-Litterman function to incorporate your views
+%%Black-Litterman function to incorporate your views
 
 
 %% find market cap weights for each asset

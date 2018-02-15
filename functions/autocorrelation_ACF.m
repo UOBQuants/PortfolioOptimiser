@@ -1,5 +1,4 @@
 function h = autocorrelation_ACF(Returns, ReturnName, CompanyName, doPlot)
-% Author : Giuseppe Mascolo
 % autocorrelation_ACF
 % Input: Returns: data
 %        ReturnName: string with the name ot the returns (simple,compound,ext.)

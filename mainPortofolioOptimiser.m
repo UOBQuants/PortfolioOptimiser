@@ -1,5 +1,14 @@
 %--------------------------------------------------------------------------
 % Portfolio Optimiser main script
+% Instruction: the first time the main is run check that there are not
+% these two files: "positionDB.mat" and "positionDB_BL.mat" otherwise delete
+% them (just the first run).
+% Check the existance of the file "companylist.csv" with correct tickers.
+% Once these preliminaries have been made it is possible to run the main.
+% 1. Set the date for the Crawler
+% 2. Change the Q and P matrix with the experts views
+% 3. Run
+% 4. Run "PerformanceAnalysis.m" setting the correct End_Date
 %--------------------------------------------------------------------------
 clear all, close all
 
@@ -11,10 +20,10 @@ addpath('functions/Heuristic_test_sub_functions')
 dates2csv('29/01/2016', '29/01/2018') %Sending the start and finish dates to the crawler for data aquisition
 system('python functions/Crawler/Data_Gatherer.py')
 
-%% Your Q matrix is your own view of the market, I use an estimate of 
-% compound returns for each security, I found the 12 month estimated price 
-% on Bloomberg (I couldn't find anything shrter than this) then each week 
-% I used the last price and this estimated price to calculate compound
+%% Your Q matrix is your own view of the market, 
+% An estimate of compound returns for each security is used, 
+% namely each week the 12 month estimated price on Bloomberg has been taken
+% as estimation
 % return --> log(estimatedprice/recentprice) * 100
 
 % Q = [8.215 22.69 16.66 6.85 9.23 4.5 ]' ; %week 1
@@ -26,7 +35,7 @@ system('python functions/Crawler/Data_Gatherer.py')
 %% P and views matrix, 
 % your P matrix will be an identity matrix of 1's or -1's,
 % depending on whether you expect your returns to increase or
-%%decrease, P's are in order or the security no. 
+% decrease, P's are in order or the security no. 
 
 P = [ 1, 1, 1, 1, 1, -1];
 
@@ -60,15 +69,13 @@ NDaysProjection = 5;
 NCompanies = size - 2;
 lastPrices = Market{1,3:end};
 projectedPrices = Projection(NDaysProjection, NCompanies, Rho, nu, marginals, lastPrices); 
-
 [exp_lin_return, var_lin_return] = priceToLinear(projectedPrices, lastPrices);
 
+%Black-Litterman
 [exp_com_returnBL, var_com_returnBL] = priceToCompoundBL(WeeklyCompound, Market, OutstandingShares, NCompanies, Q, P);
 
 %% Optimisation
-%first calculates expected vector and covariance matrix for total returns
-%matlab Portfolio object uses Markowitz model for portfolio optimisation
-%computations
+
 [sharp_ratio, SR_pwgt] = Optimisation(exp_lin_return, var_lin_return, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio MV');
 [sharp_ratioBL, SR_pwgtBL] = Optimisation(exp_com_returnBL, var_com_returnBL, Companies(3:end), NCompanies, plotFront, 'Max Sharp Ratio Portfolio BL');
 

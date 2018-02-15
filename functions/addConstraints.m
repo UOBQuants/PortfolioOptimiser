@@ -1,5 +1,4 @@
 function port = addConstraints(port, A)
-% Author : Giuseppe Mascolo
 % addConstraints
 % Input: port: portfolio object
 %        A: vector of 1 and -1 to indicate short and long
